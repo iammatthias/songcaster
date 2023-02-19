@@ -1,5 +1,6 @@
 import { json } from "@remix-run/node"; // or cloudflare/deno
 import { useLoaderData } from "@remix-run/react";
+import styles from "./styles.module.css";
 
 // Components
 import Casts from "../components/casts";
@@ -16,7 +17,7 @@ export default function Index() {
   const casts = response.feed.results;
 
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
+    <div className={styles.root}>
       <h1>SongCaster</h1>
       <p>Your favorite casters' favorite songs.</p>
       <Casts data={casts} />
