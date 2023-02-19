@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import { Spotify } from "react-spotify-embed";
 import styles from "./styles.module.css";
 
@@ -56,11 +57,21 @@ export default function Casts({ data }: any) {
     return (
       <div key={cast.hash}>
         <div className={styles.meta}>
-          <h3>{cast.username}</h3>
+          <h3>
+            <a href={`https://www.discove.xyz/@${cast.username}`}>
+              @{cast.username}
+            </a>
+          </h3>
+
           <p>{published_at}</p>
         </div>
 
         {renderCastUrls}
+        <div className={styles.viewOnDiscove}>
+          <a href={`https://www.discove.xyz/casts/${cast.hash}`}>
+            View Cast on Discove
+          </a>
+        </div>
       </div>
     );
   });
