@@ -24,18 +24,24 @@ export default function Casts({ data }: any) {
       if (url.url.includes("open.spotify")) {
         return (
           <div key={url.url}>
-            <Spotify wide link={url.url} />
+            <iframe
+              src={`${url.url.replace("spotify.com/", "spotify.com/embed/")}`}
+              className={styles.spotifyEmbed}
+              frameBorder='0'
+              allow='autoplay; encrypted-media;'
+              loading='lazy'
+            />
           </div>
         );
       } else if (url.url.includes("music.apple")) {
         return (
           <div key={url.url}>
             <iframe
-              allow='autoplay *; encrypted-media *;'
+              src={url.url.replace("https://", "https://embed.")}
               className={styles.appleMusicEmbed}
               frameBorder='0'
-              sandbox='allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation'
-              src={url.url.replace("https://", "https://embed.")}
+              allow='autoplay; encrypted-media;'
+              loading='lazy'
             />
           </div>
         );
