@@ -14,10 +14,18 @@ export default function Casts({ data }: any) {
         username: cast.username,
         hash: cast.hash,
         published_at: cast.published_at,
+        timestamp: new Date(cast.published_at).getTime(),
         urls: cast.og.urls || [],
       };
     }
   );
+
+  // sort casts by date
+  const sortedCasts = casts.sort((a: any, b: any) => {
+    return (b.timestamp - a.timestamp) as any;
+  });
+
+  console.log(sortedCasts);
 
   const renderCasts = casts.map((cast: any) => {
     const renderCastUrls = cast.urls.map((url: any) => {
@@ -38,7 +46,12 @@ export default function Casts({ data }: any) {
         return (
           <div key={url.url}>
             <iframe
-              src={url.url.replace("https://", "https://embed.")}
+              src={
+                url.url.startsWith("https://")
+                  ? url.url.replace("https://", "https://embed.")
+                  : url.url.startsWith("music.") &&
+                    url.url.replace("music.", "https://embed.music.")
+              }
               className={styles.appleMusicEmbed}
               frameBorder='0'
               allow='autoplay; encrypted-media;'
