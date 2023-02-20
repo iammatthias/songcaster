@@ -14,7 +14,7 @@ export default function Casts({ data }: any) {
         username: cast.username,
         hash: cast.hash,
         published_at: cast.published_at,
-        urls: cast.og.urls,
+        urls: cast.og.urls || [],
       };
     }
   );
@@ -31,6 +31,7 @@ export default function Casts({ data }: any) {
               allow='autoplay; encrypted-media;'
               loading='lazy'
             />
+            <p>{url.url}</p>
           </div>
         );
       } else if (url.url.includes("music.apple")) {
@@ -43,6 +44,7 @@ export default function Casts({ data }: any) {
               allow='autoplay; encrypted-media;'
               loading='lazy'
             />
+            <p>{url.url}</p>
           </div>
         );
       } else if (url.url.includes("tidal.com/browse")) {
@@ -60,26 +62,30 @@ export default function Casts({ data }: any) {
       "en-US"
     );
 
-    return (
-      <div key={cast.hash}>
-        <div className={styles.meta}>
-          <h3>
-            <a href={`https://www.discove.xyz/@${cast.username}`}>
-              @{cast.username}
+    if (cast.urls.length > 0) {
+      return (
+        <div key={cast.hash}>
+          <div className={styles.meta}>
+            <h3>
+              <a href={`https://www.discove.xyz/@${cast.username}`}>
+                @{cast.username}
+              </a>
+            </h3>
+
+            <p>{published_at}</p>
+          </div>
+
+          {renderCastUrls}
+          <div className={styles.viewOnDiscove}>
+            <a href={`https://www.discove.xyz/casts/${cast.hash}`}>
+              View Cast on Discove
             </a>
-          </h3>
-
-          <p>{published_at}</p>
+          </div>
         </div>
-
-        {renderCastUrls}
-        <div className={styles.viewOnDiscove}>
-          <a href={`https://www.discove.xyz/casts/${cast.hash}`}>
-            View Cast on Discove
-          </a>
-        </div>
-      </div>
-    );
+      );
+    } else {
+      return null;
+    }
   });
 
   return <div className={styles.grid}>{renderCasts}</div>;
